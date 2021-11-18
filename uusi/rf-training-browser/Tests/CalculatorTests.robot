@@ -19,7 +19,7 @@ Verify title
    # Click   
    ${tulos}    Evaluate     1 + 1
 
-*** Test Cases ***
+
 Verify numerot
     [Tags]     calculate
     ${num1}       ${num2}      getFirstNumberPair   
@@ -27,7 +27,7 @@ Verify numerot
     Click       id=BtnPlus
     Click       id=Btn${num2}
     Click       id=BtnCalc
-    Sleep         2
+    Sleep         1
     ${result}    Get Attribute     id=result      title
     ${fileresult}       getFirstResult
     # VERRATAAN TULOKSIA
@@ -41,6 +41,14 @@ template test for sums
     2     3
     4     5
 
+template with loop
+    [Template]      template for sum
+    FOR     ${indeksi}      IN RANGE    6
+        ${indeksi}    
+    END
+
+
+
 
 *** Keywords ***
 calc sums
@@ -48,8 +56,22 @@ calc sums
     [Arguments]     ${arg1}    ${arg2}
     Evaluate     ${arg1} + ${arg2}
 
+template for sum
+    [Arguments]    ${indeksi} 
+
+    ${num1}    ${num2}       getNumberPairAtIndex       ${indeksi}
+    ${singlevalue}     getResultAtIndex   ${indeksi}
+    Click       id=BtnClear
+    Click       id=Btn${num1}
+    Click       id=BtnPlus
+    Click       id=Btn${num2}
+    Click       id=BtnCalc
+    Click       id=BtnCalc
+    Sleep     1
+    ${result}    Get Attribute     id=result      title
     
 
+    Should Be Equal     ${result}     ${singlevalue}
 
 
 
